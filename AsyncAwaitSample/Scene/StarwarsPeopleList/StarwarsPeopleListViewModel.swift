@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Foundation
 
 final class StarwarsPeopleListViewModel: ObservableObject {
     @Published var people: [Person] = []
@@ -15,6 +16,10 @@ final class StarwarsPeopleListViewModel: ObservableObject {
     }
 
     func viewDidLoad() {
+        fetchStarwarsPeople()
+    }
+
+    @objc func handleRefreshControl() {
         fetchStarwarsPeople()
     }
 }

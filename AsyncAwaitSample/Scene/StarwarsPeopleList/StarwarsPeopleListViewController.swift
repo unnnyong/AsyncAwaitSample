@@ -10,6 +10,16 @@ import UIKit
 
 final class StarwarsPeopleListViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(
+            viewModel, action: #selector(viewModel.handleRefreshControl),
+            for: .valueChanged
+        )
+        tableView.refreshControl = refreshControl
+
+        return refreshControl
+    }()
 
     private let viewModel = StarwarsPeopleListViewModel()
     private var cancelBag = Set<AnyCancellable>()
@@ -41,6 +51,7 @@ private extension StarwarsPeopleListViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] person in
                 self?.tableView.reloadData()
+                self?.refreshControl.endRefreshing()
             }
             .store(in: &cancelBag)
     }
