@@ -14,11 +14,19 @@ final class StarwarsPeopleListViewModel: ObservableObject {
         fetchStarwarsPeople()
     }
 
+    func viewDidLoad() {
+        fetchStarwarsPeople()
+    }
+}
+
+private extension StarwarsPeopleListViewModel {
     func fetchStarwarsPeople() {
-        // TODO: request get method
-        people = [
-            Person(name: "Anna"),
-            Person(name: "Banana")
-        ]
+        Task {
+            do {
+                people = try await APIClient().getPeople()
+            } catch NetworkError.invalidURL {
+                print("Invalid URL ERROR!")
+            }
+        }
     }
 }

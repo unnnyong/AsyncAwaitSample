@@ -18,6 +18,7 @@ final class StarwarsPeopleListViewController: UIViewController {
         super.viewDidLoad()
 
         setupViewModel()
+        viewModel.viewDidLoad()
     }
 }
 
